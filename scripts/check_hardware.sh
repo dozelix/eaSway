@@ -69,7 +69,7 @@ fi
 # BUG-5 FIX: REQUIRED_CMDS estaba DESPUÉS del exit 0, nunca se ejecutaba en VM.
 if [ "$SKIP_HARDWARE_DETECTION" = true ]; then
     echo -e "${YELLOW}>> Verificando dependencias mínimas (entorno VM)...${NC}"
-    REQUIRED_CMDS=("bash" "apt" "sudo" "cp" "mkdir" "find")
+    REQUIRED_CMDS=("bash" "sudo" "cp" "mkdir" "find")
     for cmd in "${REQUIRED_CMDS[@]}"; do
         if ! command -v "$cmd" &>/dev/null; then
             echo -e "${RED}   [ERROR] Dependencia crítica no encontrada: '$cmd'${NC}"
@@ -183,7 +183,7 @@ fi
 # 5. DEPENDENCIAS MÍNIMAS — solo ruta no-VM
 # (en ruta VM ya se verificaron antes del exit 0 temprano)
 # =================================================================
-REQUIRED_CMDS=("bash" "apt" "sudo" "cp" "mkdir" "find")
+REQUIRED_CMDS=("bash" "sudo" "cp" "mkdir" "find")
 for cmd in "${REQUIRED_CMDS[@]}"; do
     if ! command -v "$cmd" &>/dev/null; then
         echo -e "${RED}   [ERROR] Dependencia crítica no encontrada: '$cmd'${NC}"

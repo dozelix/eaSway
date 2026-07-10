@@ -19,29 +19,59 @@ nuestro tipo de usuario es el que tiene conocimientos basicos de terminal en bas
 
 ```text
 eaSway/
-├── src/
-│   ├── cli/             # Lógica de instalación por terminal
-│   └── gui/             # Aplicación GTK4/Libadwaita (aun sin desarrollar)
-├── dotfiles/            # Plantillas de configuración (.conf)
-├── scripts/             # Utilidades de detección de hardware,OS y herramientas del instalador cli
+├── install.sh           # Entry point único (sudo cache + orquestador)
+├── scripts/
+│   ├── orchestrator.sh  # Orquestador de instalación
+│   ├── check_hardware.sh
+│   ├── install_packages.sh
+│   ├── setup_config.sh
+│   ├── post_install.sh
+│   ├── gpu_environment.sh
+│   └── uninstall.sh
+├── dotfiles/            # Plantillas de configuración (sway, waybar, rofi, foot, mako)
 └── assets/              # Recursos visuales y logos
 ```
 
 ---
 
-### Entorno de Pruebas Sandbox
+### Entorno de Pruebas con VM (Snapshots)
 
-Para el desarrollo seguro, incluimos un entorno basado en **Docker** que permite validar la lógica de los scripts sin riesgo para el host.
-(aun falta implementarlo dentro de github, actualmente dentro del repositorio)
+Para probar eaSway sin tocar tu máquina principal, incluimos un sistema de VM con snapshots descartables basado en **QEMU/KVM + SPICE + cloud-init**.
 
-**Cómo lanzar los tests:**  
+**Requisitos:** Kernel con KVM (vmx/svm), ~2GB RAM libre, ~10GB disco
+
+**Preparación (una sola vez):**  
+Descarga la imagen cloud de Debian 12 y la inicializa:
 ```bash
-chmod +x test_eaSway.sh
-./test_eaSway.sh
+bash scripts/prepare_base.sh
 ```
 
-**Nota sobre el entorno Docker:**  
-El entorno Docker actual se utiliza para validación de sintaxis, dependencias y lógica de instalación. Para pruebas de renderizado gráfico de **Sway (Wayland)**, se recomienda el uso de una **Máquina Virtual VM** debido a las limitaciones de systemd y seatd dentro de contenedores.
+**Lanzar prueba:**  
+Crea un snapshot overlay, inyecta cloud-init que instala eaSway automáticamente, y abre SPICE:
+```bash
+bash scripts/test_vm.sh
+```
+
+**Cómo funciona:**
+- `prepare_base.sh` descarga Debian 12 cloud image (~300MB), la redimensiona a 15GB y la inicializa con cloud-init (usuario `easway`/`easway`).
+- `test_vm.sh` crea un **overlay COW** (copy-on-write) sobre la imagen base — el boot es instantáneo, la base nunca se modifica.
+- El cloud-init clona eaSway desde GitHub y ejecuta `install.sh` automáticamente.
+- Después del primer boot + instalación, la VM reinicia y muestra Sway con el tema completo vía SPICE.
+- Al cerrar, el overlay se elimina → estado 100% limpio para la próxima prueba.
+
+**Credenciales VM:**  
+```
+Usuario: easway
+Contraseña: easway
+SSH:     ssh easway@localhost -p 2222
+SPICE:   spicy -h 127.0.0.1 -p 5900
+```
+
+**Carpeta compartida (9p/virtiofs):**  
+El repositorio local de eaSway se monta dentro de la VM en `/mnt`:
+```bash
+mount -t 9p -o trans=virtio easway /mnt
+```
 
 ---
 

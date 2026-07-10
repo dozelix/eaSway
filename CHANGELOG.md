@@ -57,7 +57,7 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 - **Nuevos atajos de teclado:**
   - `$mod+b` → lanza Firefox.
   - `$mod+Shift+f` → lanza Thunar (gestor de archivos).
-  - `$mod+Shift+d` → cierra Wofi si está abierto (`pkill wofi`).
+  - `$mod+Shift+d` → cierra Rofi si está abierto (`pkill rofi`).
 - `exec swaybg -m fill -i ~/wallpapers/easway_wallpaper.webp` añadido al autostart.
 
 ---

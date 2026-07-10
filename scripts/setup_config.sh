@@ -11,7 +11,7 @@ APPS=(
     "sway"
     "waybar"
     "mako"
-    "wofi"
+    "rofi"
     "foot"
 )
 # def Colores

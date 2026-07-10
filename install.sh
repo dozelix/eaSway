@@ -1,9 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Wrapper para cachear credenciales sudo y ejecutar el instalador principal
 BASE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-INSTALL_SCRIPT="$BASE_DIR/install.sh"
+ORCHESTRATOR="$BASE_DIR/scripts/orchestrator.sh"
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -20,16 +19,15 @@ ensure_sudo_cached() {
     if sudo -v; then
         echo -e "${GREEN}[OK] Credenciales sudo obtenidas.${NC}"
     else
-        echo -e "${RED}[ERROR] No se pudo obtener credenciales sudo. Ejecuta el instalador con un usuario con privilegios o configura sudo.${NC}"
+        echo -e "${RED}[ERROR] No se pudo obtener credenciales sudo.${NC}"
         exit 1
     fi
 }
 
-ensure_sudo_cached
-
-if [ ! -f "$INSTALL_SCRIPT" ]; then
-    echo -e "${RED}[ERROR] Instalador no encontrado en: $INSTALL_SCRIPT${NC}"
+if [ ! -f "$ORCHESTRATOR" ]; then
+    echo -e "${RED}[ERROR] Orquestador no encontrado en: $ORCHESTRATOR${NC}"
     exit 1
 fi
 
-exec bash "$INSTALL_SCRIPT" "$@"
+ensure_sudo_cached
+exec bash "$ORCHESTRATOR" "$@"

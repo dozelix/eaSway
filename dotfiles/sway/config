@@ -19,7 +19,7 @@ set $right l
 
 # Aplicaciones preferidas
 set $term foot
-set $menu wofi --show drun --prompt "Ejecutar..."
+set $menu rofi -show drun -prompt "Ejecutar..." -show-icons
 set $screenshot_full grim ~/capturas/screenshot_$(date +%Y%m%d_%H%M%S).png
 set $screenshot_area grim -g "$(slurp)" ~/capturas/screenshot_$(date +%Y%m%d_%H%M%S).png
 
@@ -63,7 +63,7 @@ bindsym $mod+d exec $menu
 bindsym $mod+q kill
 bindsym $mod+b exec firefox
 bindsym $mod+Shift+f exec thunar
-bindsym $mod+Shift+d exec pkill wofi
+bindsym $mod+Shift+d exec pkill rofi
 
 # Gestión del compositor
 bindsym $mod+Shift+c reload

@@ -17,7 +17,7 @@
 set -euo pipefail
 
 BASE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) || { echo "Error: No se pudo determinar BASE_DIR"; exit 1; }
-REPO_ROOT=$(cd "$BASE_DIR/../.." && pwd) || { echo "Error: No se pudo determinar REPO_ROOT"; exit 1; }
+REPO_ROOT=$(cd "$BASE_DIR/.." && pwd) || { echo "Error: No se pudo determinar REPO_ROOT"; exit 1; }
 SCRIPTS_DIR="$REPO_ROOT/scripts"
 LOG_FILE="$REPO_ROOT/install.log"
 
@@ -45,7 +45,7 @@ validate_prerequisites() {
 # Validar que los scripts existen
 validate_scripts() {
     local missing=0
-    for script in "check_hardware.sh" "install_packages.sh" "setup_config.sh" "post_install.sh" "gpu_environment.sh"; do
+    for script in "check_hardware.sh" "detect-pkg.sh" "install_packages.sh" "setup_config.sh" "post_install.sh" "gpu_environment.sh"; do
         if [ ! -f "$SCRIPTS_DIR/$script" ]; then
             echo -e "${RED}[ERROR] Script no encontrado: $SCRIPTS_DIR/$script${NC}"
             missing=$((missing + 1))
@@ -57,7 +57,7 @@ validate_scripts() {
     fi
 }
 
-echo -e "${GREEN}Iniciando eaSway para Debian${NC}"
+echo -e "${GREEN}Iniciando eaSway${NC}"
 echo -e "Usuario detectado: ${USER:-$(whoami)}\n"
 echo -e "${BLUE}Log: $LOG_FILE${NC}\n"
 

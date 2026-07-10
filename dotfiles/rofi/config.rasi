@@ -1,0 +1,87 @@
+* {
+    background-color: #0c0c0c;
+    text-color: #ececec;
+    font: "Noto Sans Bold 11";
+}
+
+window {
+    width: 40%;
+    padding: 8px;
+    location: center;
+    anchor: center;
+    fullscreen: false;
+    border: 3px;
+    border-color: #00e5ff #00e5ff #d500f9 #d500f9;
+    background-color: #0c0c0c;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing: 4px;
+}
+
+inputbar {
+    spacing: 0;
+    padding: 4px 0;
+    background-color: #0c0c0c;
+}
+
+prompt {
+    enabled: false;
+}
+
+entry {
+    placeholder: "Ejecutar...";
+    placeholder-color: rgba(0, 229, 255, 0.5);
+    text-color: #ececec;
+    background-color: #161616;
+    padding: 8px 12px;
+    border: 0px;
+    border-radius: 4px;
+    blink: true;
+    cursor-color: #00e5ff;
+    cursor-width: 3px;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    spacing: 0;
+    dynamic: true;
+    cycle: true;
+    scrollbar: false;
+    padding: 4px 0px 0px 0px;
+}
+
+element {
+    padding: 8px 12px;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+element selected {
+    background-color: rgba(0, 229, 255, 0.12);
+    border: 0px;
+}
+
+element-text {
+    text-color: #ececec;
+    vertical-align: 0.5;
+    margin: 0px 8px;
+}
+
+element selected element-text {
+    text-color: #00e5ff;
+}
+
+element-icon {
+    size: 1.2em;
+}
+
+mode-switcher {
+    enabled: false;
+}
+
+message {
+    enabled: false;
+}

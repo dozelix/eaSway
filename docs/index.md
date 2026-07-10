@@ -29,11 +29,16 @@ Bienvenido a la documentación centralizada del ecosistema **eaSway**. Este proy
 
 ```text
 eaSway/
-├── src/
-│   ├── cli/
-│   └── gui/
-├── dotfiles/
+├── install.sh           # Entry point único
 ├── scripts/
+│   ├── orchestrator.sh
+│   ├── check_hardware.sh
+│   ├── install_packages.sh
+│   ├── setup_config.sh
+│   ├── post_install.sh
+│   ├── gpu_environment.sh
+│   └── uninstall.sh
+├── dotfiles/
 └── assets/
 ```
 

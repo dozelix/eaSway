@@ -24,5 +24,8 @@ venv/
 # Entorno de test local (generado en runtime por test_vm_local.sh)
 .test_vm_env/
 
+# Imágenes de VM de prueba (generadas por scripts/prepare_base.sh y test_vm.sh)
+test-images/
+
 # Editor (configuración personal — ver docs/index.md para extensiones recomendadas)
 .vscode/

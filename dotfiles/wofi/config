@@ -1,9 +1,0 @@
-max-history=50
-border-size=3
-border-radius=0
-font=Noto Sans Bold 11
-background-color=#000000
-text-color=#ffffff
-border-color=#00ff00
-default-timeout=5000
-key_exit=Escape
