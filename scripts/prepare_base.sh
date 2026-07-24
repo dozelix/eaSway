@@ -117,11 +117,14 @@ rm -rf "$SEED_DIR"
 echo -e "${YELLOW}>> Inicializando imagen base (primer boot con cloud-init)...${NC}"
 
 echo -e "${YELLOW}   (Esto toma ~2-3 minutos, espera a que termine...)${NC}"
+cp /usr/share/edk2/x64/OVMF_VARS.4m.fd /tmp/ovmf_vars.fd
 timeout 240 qemu-system-x86_64 \
     -machine q35,accel=kvm \
     -m 768 \
     -smp 2 \
     -nographic \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2/x64/OVMF_CODE.4m.fd \
+    -drive if=pflash,format=raw,file=/tmp/ovmf_vars.fd \
     -drive file="$BASE_IMAGE",if=virtio,aio=threads \
     -drive file="$IMAGES_DIR/seed-init.iso",if=virtio,media=cdrom \
     -nic user \

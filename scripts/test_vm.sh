@@ -92,12 +92,17 @@ echo -e "${YELLOW}   La VM arrancará, instalará eaSway automáticamente y rein
 echo -e "${YELLOW}   Después del reinicio, Sway se mostrará con el tema completo.${NC}"
 echo ""
 
+OVMF_VARS="/tmp/easway-ovmf-vars.fd"
+cp /usr/share/edk2/x64/OVMF_VARS.4m.fd "$OVMF_VARS"
+
 QEMU_CMD=(
     qemu-system-x86_64
     -machine q35,accel=kvm
     -m "$RAM_MB"
     -smp "$VCPUS"
     -cpu host
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2/x64/OVMF_CODE.4m.fd
+    -drive if=pflash,format=raw,file="$OVMF_VARS"
     -drive file="$OVERLAY",if=virtio,aio=threads
     -drive file="$SEED_ISO",if=virtio,media=cdrom
     -nic user,hostfwd=tcp::"$SSH_PORT"-:22
